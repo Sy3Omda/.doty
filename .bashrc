@@ -68,11 +68,14 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # EG: the ls command is aliased, but to use the normal ls command you would type \ls
 
 # Edit this .bashrc file
-alias ebrc='sudo edit ~/mydotfiles/.bashrc'
-alias sbrc='source ~/mydotfiles/.bashrc'
+alias ebrc='sudo nano ~/.doty/.bashrc'
+alias sbrc='source ~/.doty/.bashrc'
 
 # alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
+
+# alias for playing youtube video from VLC
+alias yt='vlc $(xclip -o) 2>1&'
 
 # Alias's to modified commands
 alias rm='rm -rf'
@@ -173,35 +176,6 @@ alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' 
 #######################################################
 # SPECIAL FUNCTIONS
 #######################################################
-
-# Use the best version of pico installed
-edit ()
-{
-	if [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		jpico -nonotice -linums -nobackups "$@"
-	elif [ "$(type -t nano)" = "file" ]; then
-		nano -c "$@"
-	elif [ "$(type -t pico)" = "file" ]; then
-		pico "$@"
-	else
-		vim "$@"
-	fi
-}
-sedit ()
-{
-	if [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		sudo jpico -nonotice -linums -nobackups "$@"
-	elif [ "$(type -t nano)" = "file" ]; then
-		sudo nano -c "$@"
-	elif [ "$(type -t pico)" = "file" ]; then
-		sudo pico "$@"
-	else
-		sudo vim "$@"
-	fi
-}
-
 # Extracts any archive(s) (if unp isn't installed)
 extract () {
 	for archive in $*; do

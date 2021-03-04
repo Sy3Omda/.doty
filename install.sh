@@ -22,6 +22,7 @@ install_wine(){
 		sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
 		sudo add-apt-repository -y ppa:cybermax-dexter/sdl2-backport
 		sudo apt -y update && sudo apt -y install --install-recommends winehq-stable
+		sudo apt install -y playonlinux winbind winetricks
 		wine64 uninstaller 
 }
 
@@ -213,52 +214,66 @@ install_nativefier(){
 		[ -d "/opt/nativefier" ] || sudo mkdir -p "/opt/nativefier"
 		cd "/opt/nativefier"
 		
-		# Force install followed websites for personal use.
-		sudo nativefier --name 'FaceBook' 'www.facebook.com'
-		sudo nativefier --name 'WhatsApp' 'web.whatsapp.com'
-		sudo nativefier --name 'Telegram' 'web.telegram.org'
-		sudo nativefier --name 'Gmail' 'mail.google.com'
-		sudo nativefier --name 'Twitter' 'twitter.com'
-		sudo nativefier --name 'Github' 'github.com'
+		# Enable choice for now
+		read -p "Install FaceBook webapp (y/n)?" choice
+    	case "$choice" in
+		y|Y ) sudo nativefier --name 'FaceBook' 'www.facebook.com';;
+    	n|N ) show_msg "\nSkipped FaceBook !";;
+    	esac
 		
-		# Disable choice for now
-#		read -p "Install FaceBook webapp (y/n)?" choice
-#       case "$choice" in
-#       y|Y ) sudo nativefier --name 'FaceBook' 'www.facebook.com';;
-#       n|N ) show_msg "\nSkipped FaceBook !";;
-#       esac
+		read -p "Install WhatsApp webapp (y/n)?" choice
+    	case "$choice" in
+    	y|Y ) sudo nativefier --name 'WhatsApp' 'web.whatsapp.com';;
+    	n|N ) show_msg "\nSkipped WhatsApp !";;
+    	esac
 		
-#		read -p "Install WhatsApp webapp (y/n)?" choice
-#       case "$choice" in
-#       y|Y ) sudo nativefier --name 'WhatsApp' 'web.whatsapp.com';;
-#       n|N ) show_msg "\nSkipped WhatsApp !";;
-#       esac
+		read -p "Install Telegram webapp (y/n)?" choice
+    	case "$choice" in
+    	y|Y ) sudo nativefier --name 'Telegram' 'web.telegram.org';;
+    	n|N ) show_msg "\nSkipped Telegram !";;
+    	esac
 		
-#		read -p "Install Telegram webapp (y/n)?" choice
-#       case "$choice" in
-#       y|Y ) sudo nativefier --name 'Telegram' 'web.telegram.org';;
-#       n|N ) show_msg "\nSkipped Telegram !";;
-#       esac
+		read -p "Install Gmail webapp (y/n)?" choice
+    	case "$choice" in
+    	y|Y ) sudo nativefier --name 'Gmail' 'mail.google.com';;
+    	n|N ) show_msg "\nSkipped Gmail !";;
+    	esac
 		
-#		read -p "Install Gmail webapp (y/n)?" choice
-#       case "$choice" in
-#       y|Y ) sudo nativefier --name 'Gmail' 'mail.google.com';;
-#       n|N ) show_msg "\nSkipped Gmail !";;
-#       esac
+		read -p "Install Twitter webapp (y/n)?" choice
+    	case "$choice" in
+    	y|Y ) sudo nativefier --name 'Twitter' 'twitter.com';;
+    	n|N ) show_msg "\nSkipped Twitter !";;
+    	esac
 		
-#		read -p "Install Twitter webapp (y/n)?" choice
-#       case "$choice" in
-#       y|Y ) sudo nativefier --name 'Twitter' 'twitter.com';;
-#       n|N ) show_msg "\nSkipped Twitter !";;
-#       esac
-		
-#		read -p "Install Github webapp (y/n)?" choice
-#       case "$choice" in
-#       y|Y ) sudo nativefier --name 'Github' 'github.com';;
-#       n|N ) show_msg "\nSkipped Github !";;
-#       esac
+		read -p "Install Github webapp (y/n)?" choice
+    	case "$choice" in
+    	y|Y ) sudo nativefier --name 'Github' 'github.com';;
+    	n|N ) show_msg "\nSkipped Github !";;
+    	esac
 		
 		cd -
+}
+
+install_obs(){
+		sudo add-apt-repository -y ppa:obsproject/obs-studio
+		sudo apt update -y
+		sudo apt install -y obs-studio
+}
+
+install_power_management_tools(){
+		sudo apt install -y tlp powertop
+
+		sudo add-apt-repository -y ppa:linuxuprising/apps
+		sudo apt update -y
+		sudo apt install -y tlpui
+
+		sudo add-apt-repository -y ppa:slimbook/slimbook
+		sudo apt update -y
+		sudo apt install -y slimbookbattery
+}
+
+install_powershell(){
+		sudo snap install powershell --classic
 }
 
 install_all(){
@@ -293,6 +308,10 @@ install_all(){
 		install_libreoffice
 		install_thunderbird
 		install_nativefier
+		install_obs
+		install_power_management_tools
+		install_powershell
+		
 }
 
 		read -p "Install All Programs. Are you sure (y/n)?" choice
@@ -507,6 +526,24 @@ install_all(){
 				case "$choice" in
 				y|Y ) install_nativefier;;
 				n|N ) show_msg "\nSkipped nativefier !";;
+				esac
+
+				read -p "install OBS (y/n)?" choice
+				case "$choice" in
+				y|Y ) install_obs;;
+				n|N ) show_msg "\nSkipped OBS !";;
+				esac
+
+				read -p "install Power Management Tools (y/n)?" choice
+				case "$choice" in
+				y|Y ) install_power_management_tools;;
+				n|N ) show_msg "\nSkipped Power Management Tools !";;
+				esac
+
+				read -p "install PowerShell (y/n)?" choice
+				case "$choice" in
+				y|Y ) install_powershell;;
+				n|N ) show_msg "\nSkipped PowerShell !";;
 				esac
 
 
