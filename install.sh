@@ -261,19 +261,21 @@ install_obs(){
 }
 
 install_power_management_tools(){
-		sudo apt install -y tlp powertop
-
 		sudo add-apt-repository -y ppa:linuxuprising/apps
-		sudo apt update -y
-		sudo apt install -y tlpui
-
 		sudo add-apt-repository -y ppa:slimbook/slimbook
-		sudo apt update -y
-		sudo apt install -y slimbookbattery
+		sudo apt install -y tlp powertop tlpui slimbookbattery
 }
 
 install_powershell(){
 		sudo snap install powershell --classic
+}
+
+install_NoiseTorch(){
+		curl https://api.github.com/repos/lawl/NoiseTorch/releases/latest | grep -E 'browser_download_url' | grep "NoiseTorch_x64" | cut -d '"' -f 4 | wget -qi -
+		tar -C $HOME -xzf NoiseTorch_x64.tgz
+		rm NoiseTorch_x64.tgz
+		gtk-update-icon-cache
+		sudo setcap 'CAP_SYS_RESOURCE=+ep' ~/.local/bin/noisetorch
 }
 
 install_all(){
@@ -311,6 +313,7 @@ install_all(){
 		install_obs
 		install_power_management_tools
 		install_powershell
+		install_NoiseTorch
 		
 }
 
@@ -544,6 +547,12 @@ install_all(){
 				case "$choice" in
 				y|Y ) install_powershell;;
 				n|N ) show_msg "\nSkipped PowerShell !";;
+				esac
+
+				read -p "install NoiseTorch (y/n)?" choice
+				case "$choice" in
+				y|Y ) install_NoiseTorch;;
+				n|N ) show_msg "\nSkipped NoiseTorch !";;
 				esac
 
 
